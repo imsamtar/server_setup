@@ -88,12 +88,14 @@ func main() {
 
 	runCmd("apt-get install -y -qq unzip", verbose)
 	runCmd("curl -fsSL https://bun.sh/install | bash", verbose)
+	runCmd("curl -fsSL https://deno.land/install.sh | sh", verbose)
+	runCmd("curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash", verbose)
 	runCmd("apt-get update -y -qq && apt-get upgrade -y -qq", verbose)
 
 	packages := []string{
 		"sudo", "ufw", "fail2ban", "htop", "curl", "nginx", "tmux", "git",
 		"certbot", "python3-certbot-dns-cloudflare", "autojump", "zsh", "rustc",
-		"golang", "nmap", "ffmpeg",
+		"golang", "nmap", "ffmpeg", "tmux",
 	}
 
 	for _, pkg := range packages {
@@ -171,6 +173,8 @@ func main() {
 	runCmd(fmt.Sprintf("cp -r /root/.antigen.zsh /home/%[1]v/.antigen.zsh", username), verbose)
 	runCmd(fmt.Sprintf("chown -R %[1]v:%[1]v /home/%[1]v/.antigen.zsh", username), verbose)
 	runCmd(fmt.Sprintf("su - %[1]v -c \"curl -fsSL https://bun.sh/install | bash\"", username), verbose)
+	runCmd(fmt.Sprintf("su - %[1]v -c \"curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash\"", username), verbose)
+	runCmd(fmt.Sprintf("su - %[1]v -c \"curl -fsSL https://deno.land/install.sh | sh\"", username), verbose)
 
 	sshDir := fmt.Sprintf("/home/%[1]v/.ssh", username)
 	_, err = os.Stat(sshDir)
